@@ -1,0 +1,29 @@
+{
+  "name": "tcwatch",
+  "version": "1.0.0",
+  "description": "an automated tool to reload apache tomcat",
+  "main": "./src/index.js",
+  "bin": {
+    "tcwatch": "src/index.js"
+  },
+  "pkg": {
+    "scripts": "./src/*.js",
+    "outputPath": "dist"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "WickednessPro",
+  "license": "MIT",
+  "dependencies": {
+    "chokidar": "^3.5.3",
+    "path": "^0.12.7",
+    "portfinder": "^1.0.32",
+    "terminate": "^2.6.1"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/WickednessPro/TCWatch/"
+  }
+}
