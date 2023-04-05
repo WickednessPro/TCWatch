@@ -24,6 +24,10 @@ tcwatch
 Pull requests are welcome. For major changes, please open an issue first
 to discuss what you would like to change.
 
+## Issues
+
+For any issues please post them at https://github.com/WickednessPro/TCWatch/issues
+
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
