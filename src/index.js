@@ -13,7 +13,6 @@ var running = false;
 var tomcatExec;
 
 console.clear();
-console.log(`Ready: Watching the following directory for changes "${path.join(currentDir)}"`);
 
 const options = {
     repo: 'TCWatch',
@@ -43,8 +42,10 @@ const binfolder = path.join(currentDir + '../../../bin');
 checkTomcat().then((data) => {
     if (data === true) {
         console.error(`A process is already running using port 8080.`);
+        process.exit();
     } else if (data === false) {
         var proc = exec(`cd ${binfolder} && catalina run`);
+        console.log(`Ready: Watching the following directory for changes "${path.join(currentDir)}"`);
         running = true;
         tomcatExec = proc;
     }
@@ -61,12 +62,10 @@ watcher.on('change', async function (item) {
     if (path.extname(item) === '.java') {
         exec(`cd ${path.join('WEB-INF/classes')} && javac *.java`, async (err, out, stderr) => {
             if (err) {
-                console.error(`An error has occurred: ${err.message}`);
-                process.exit();
+                console.error(`\x1b[31mAn error has occurred: ${err.message} \x1b[0m`);
             }
             if (stderr) {
-                console.error(`An error has occurred: ${stderr}`);
-                process.exit();
+                console.error(`\x1b[31mAn error has occurred: ${stderr} \x1b[0m`);
             }
 
             if (!err || !stderr) {
@@ -87,12 +86,10 @@ watcher.on('unlink', async function (item) {
     if (path.extname(item) === '.java') {
         exec(`cd ${path.join('WEB-INF/classes')} && javac *.java`, async (err, out, stderr) => {
             if (err) {
-                console.error(`An error has occurred: ${err.message}`);
-                process.exit();
+                console.error(`\x1b[31mAn error has occurred: ${err.message} \x1b[0m`);
             }
             if (stderr) {
-                console.error(`An error has occurred: ${stderr}`);
-                process.exit();
+                console.error(`\x1b[31mAn error has occurred: ${stderr} \x1b[0m`);
             }
 
             if (!err || !stderr) {

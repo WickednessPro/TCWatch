@@ -1,6 +1,6 @@
 {
   "name": "@wickednesspro/tcwatch",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "an automated tool to reload apache tomcat",
   "main": "./src/index.js",
   "bin": {
