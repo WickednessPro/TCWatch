@@ -4,6 +4,8 @@ const chokidar = require('chokidar');
 const { exec } = require('child_process');
 const portfinder = require('portfinder');
 const terminate = require('terminate');
+const versionCheck = require('@version-checker/core');
+const pkg = require('../package.json');
 
 const PORT = 8080;
 const currentDir = process.cwd();
@@ -11,8 +13,20 @@ var running = false;
 var tomcatExec;
 
 console.clear();
+console.log(`Ready: Watching the following directory for changes "${path.join(currentDir)}"`);
 
-console.log(`Watching the following directory for changes "${path.join(currentDir)}"`);
+const options = {
+    repo: 'TCWatch',
+    owner: 'WickednessPro',
+    currentVersion: pkg.version
+};
+
+versionCheck(options, function (error, update) {
+    if (error) throw error;
+    if (update.update !== undefined) {
+        console.log(`An Update is available! Your version: ${pkg.version}, latest: ${update.update.name}, url: ${update.update.url}`)
+    }
+})
 
 if (process.env.CLASSPATH === null || process.env.CLASSPATH === '' || process.env.CLASSPATH.includes(';') === false) {
     console.error('Please check the CLASSPATH env variable and try again.');
@@ -40,7 +54,9 @@ var watcher = chokidar.watch(path.join(currentDir), {ignored: /^\./, persistent:
 
 watcher.on('change', async function (item) {
     if (path.extname(item) === '.xml') {
+        console.log('\x1b[36m%s\x1b[0m', 'Reloading');
         await runTomcat(path.join(currentDir + '/WEB-INF/classes'));
+        console.log(`Ready: Watching the following directory for changes "${path.join(currentDir)}"`);
     }
     if (path.extname(item) === '.java') {
         exec(`cd ${path.join('WEB-INF/classes')} && javac *.java`, async (err, out, stderr) => {
@@ -54,7 +70,9 @@ watcher.on('change', async function (item) {
             }
 
             if (!err || !stderr) {
+                console.log('\x1b[36m%s\x1b[0m', 'Reloading');
                 await runTomcat(path.join(currentDir + '/WEB-INF/classes'));
+                console.log(`Ready: Watching the following directory for changes "${path.join(currentDir)}"`);
             }
         });
     }
@@ -62,7 +80,9 @@ watcher.on('change', async function (item) {
 
 watcher.on('unlink', async function (item) {
     if (path.extname(item) === '.xml') {
+        console.log('\x1b[36m%s\x1b[0m', 'Reloading');
         await runTomcat();
+        console.log(`Ready: Watching the following directory for changes "${path.join(currentDir)}"`);
     }
     if (path.extname(item) === '.java') {
         exec(`cd ${path.join('WEB-INF/classes')} && javac *.java`, async (err, out, stderr) => {
@@ -76,7 +96,9 @@ watcher.on('unlink', async function (item) {
             }
 
             if (!err || !stderr) {
+                console.log('\x1b[36m%s\x1b[0m', 'Reloading');
                 await runTomcat();
+                console.log(`Ready: Watching the following directory for changes "${path.join(currentDir)}"`);
             }
         });
     }

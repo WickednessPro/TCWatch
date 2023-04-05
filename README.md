@@ -14,7 +14,7 @@ npm i -g @wickednesspro/tcwatch
 ```
 
 ## Usage
-First navigate to your project directory. i.e. if your project is called "test" navigate to your tomcat directory/webapps/test then execute the following code.
+First navigate to your project directory. i.e. if your project is called "test" navigate to your "tomcat directory/webapps/test/" then execute the following code.
 ```bash
 tcwatch
 ```
